@@ -44,21 +44,23 @@ function showCovidData(covid) {
 const searchButton = document.querySelector('.cari');
 const search = document.getElementById('search');
 const main = document.querySelector('.main');
-let covid = [];
+
 search.addEventListener('keyup', function (e) {
   // Fetch
-  const check = e.target.value.toLowerCase();
-  const filterChar = covid.filter(char => char.provinsi.includes(check));
-  console.log(filterChar);
+  const keyword = e.target.value.toLowerCase();
   fetch('https://indonesia-covid-19.mathdro.id/api/provinsi')
   .then(response => response.json())
   .then(response => {
-    let covid = response.data;
-    let covidData = '';
-    covid.forEach(c => covidData += showCovidProvinceData(c));
-    const provSection = document.querySelector('.main');
-    provSection.innerHTML = covidData;
-  });
+    const covid = response.data;
+    covid.map((response) => {
+      if (response.provinsi.toLowerCase().includes(keyword)) {
+        console.log(response.provinsi);
+        let covidData = '';
+        covid.forEach(c => covidData += showCovidProvinceData(c));
+        main.innerHTML = covidData;
+      }
+    });
+});
 
   // Ajax
   // let xhr = new XMLHttpRequest();
@@ -107,6 +109,6 @@ function showCovidProvinceData(c) {
               <div class="space"></div>
               <p>${c.kasusMeni}</p>
             </div>
-          </div>`;
+          </div> `;
 }
 
