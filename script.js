@@ -38,6 +38,8 @@ function showCovidData(covid) {
           </div>`;
 }
 
+// Loading ketika page di load
+
 // Province
 
 // Live Search
@@ -54,10 +56,8 @@ search.addEventListener('keyup', function (e) {
     const covid = response.data;
     covid.map((response) => {
       if (response.provinsi.toLowerCase().includes(keyword)) {
-        console.log(response.provinsi);
-        let covidData = '';
-        covid.forEach(c => covidData += showCovidProvinceData(c));
-        main.innerHTML = covidData;
+        console.log(showCovidProvinceData(response));
+        main.innerHTML = showCovidProvinceData(response);
       }
     });
 });
