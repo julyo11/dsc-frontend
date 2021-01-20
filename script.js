@@ -17,6 +17,9 @@ fetch("https://indonesia-covid-19.mathdro.id/api/?")
     const covid = response;
     const covidSection = document.querySelector(".covid");
     covidSection.innerHTML = showCovidData(covid);
+  })
+  .catch(e => {
+    console.log(e);
   });
 
 function showCovidData(covid) {
@@ -49,31 +52,21 @@ const main = document.querySelector(".main");
 
 search.addEventListener("keyup", function (e) {
   // Fetch
-  const keyword = e.target.value.toLowerCase();
   fetch("https://indonesia-covid-19.mathdro.id/api/provinsi")
     .then((response) => response.json())
     .then((response) => {
+      const keyword = e.target.value.toLowerCase();
       const covid = response.data;
-      covid.map((response) => {
+      covid.filter(response => {
         if (response.provinsi.toLowerCase().includes(keyword)) {
-          // let covidData = '';
-          // covid.forEach(response => covidData += showCovidProvinceData(response));
-          console.log(showCovidProvinceData(response));
-          main.innerHTML = showCovidProvinceData(response);
+          // console.log(showCovidProvinceData(response));
+          main.innerHTML += showCovidProvinceData(response);
         }
-      });
+      })
+    })
+    .catch(e => {
+      console.log(e);
     });
-
-  // Ajax
-  // let xhr = new XMLHttpRequest();
-  // xhr.onreadystatechange = function () {
-  //   if (xhr.readyState == 4 && xhr.status == 200) {
-  //     const covid = xhr.responseText;
-  //     main.innerHTML = showCovidProvinceData(covid);
-  //   }
-  // }
-  // xhr.open('GET', `https://indonesia-covid-19.mathdro.id/api/provinsi`, true);
-  // xhr.send();
 });
 
 // Show province data to html
