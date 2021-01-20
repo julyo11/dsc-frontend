@@ -59,7 +59,7 @@ search.addEventListener("keyup", function (e) {
       const covid = response.data;
       covid.filter(response => {
         if (response.provinsi.toLowerCase().includes(keyword)) {
-          // console.log(showCovidProvinceData(response));
+          console.log(showCovidProvinceData(response));
           main.innerHTML += showCovidProvinceData(response);
         }
       })
@@ -108,8 +108,10 @@ function showCovidProvinceData(c) {
 
 // Loading Indicator
 const loading = document.querySelector('.loading');
+const loadingHome = document.querySelector('.loading-home');
 window.addEventListener('load', function () {
   loading.parentElement.removeChild(loading);
+  loadingHome.parentElement.removeChild(loadingHome);
 });
 
 
