@@ -11,40 +11,39 @@ hamburger.addEventListener("click", function () {
 });
 
 // Menampilkan Data COVID-19 Indonesia di Home
-fetch("https://indonesia-covid-19.mathdro.id/api/?")
+fetch("https://covid19.mathdro.id/api/countries/IDN")
   .then((response) => response.json())
   .then((response) => {
     const covid = response;
     const covidSection = document.querySelector(".covid");
     covidSection.innerHTML = showCovidData(covid);
+    // console.log(covid);
   })
   .catch(e => {
     console.log(e);
   });
 
 function showCovidData(covid) {
+  const totalCase = covid.confirmed.value + covid.recovered.value + covid.deaths.value;
   return `<div class="total-case">
-            <h2>${covid.jumlahKasus}</h2>
+            <h2>${totalCase}</h2>
             <h4>Total Case</h4>
           </div>
           <div class="positive">
-            <h2>${covid.perawatan}</h2>
+            <h2>${covid.confirmed.value}</h2>
             <h4>Positive</h4>
           </div>
           <div class="recovered">
-            <h2>${covid.sembuh}</h2>
+            <h2>${covid.recovered.value}</h2>
             <h4>Recovered</h4>
           </div>
           <div class="death">
-            <h2>${covid.meninggal}</h2>
+            <h2>${covid.deaths.value}</h2>
             <h4>Death</h4>
           </div>`;
 }
 
-// Loading ketika page di load
-
 // Province
-
 // Live Search
 const searchButton = document.querySelector(".cari");
 const search = document.getElementById("search");
@@ -57,7 +56,7 @@ search.addEventListener("keyup", function (e) {
     .then((response) => {
       const keyword = e.target.value.toLowerCase();
       const covid = response.data;
-      covid.filter(response => {
+      covid.map(response => {
         if (response.provinsi.toLowerCase().includes(keyword)) {
           console.log(showCovidProvinceData(response));
           main.innerHTML += showCovidProvinceData(response);
